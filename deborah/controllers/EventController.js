@@ -12,6 +12,7 @@ const create = async (req, res) => {
     eventTime,
     eventDuration,
     eventLocation,
+    userId,
   } = req.body;
 
   try {
@@ -25,6 +26,7 @@ const create = async (req, res) => {
       eventTime,
       eventDuration,
       eventLocation,
+      userId,
     });
 
     const newEvent = await eventData.save();
@@ -126,12 +128,22 @@ const getAllEvent = async (req, res) => {
   }
 };
 
-const getMyEvent = async (req, res) => {};
+const getMyEvents = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const events = await Event.find({ userId });
+    res.json(events);
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(500).json({ error: "Failed to fetch events" });
+  }
+};
 
 module.exports = {
   create,
   updateEvent,
   deleteEvent,
   getAllEvent,
-  getMyEvent,
+  getMyEvents,
 };

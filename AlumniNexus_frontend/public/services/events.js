@@ -14,7 +14,7 @@ document
     if (currentUser == null) return;
 
     const { _id: userId } = currentUser.user;
-    eventData.userId = userId;
+    eventData.append("userId", userId);
 
     fetch("http://localhost:8080/api/events/create", {
       method: "POST",
